@@ -2,7 +2,7 @@
 %define plugin	muggle
 %define name	vdr-plugin-%plugin
 %define version	0.1.11
-%define rel	12
+%define rel	13
 
 Summary:	VDR plugin: Media juggle
 Name:		%name
@@ -76,7 +76,12 @@ param="-w DB_PASSWORD"
 
 %build
 # HAVE_FLAC=1 omitted, API incompatibility
-%vdr_plugin_build HAVE_VORBISFILE=1 HAVE_SNDFILE=1
+%vdr_plugin_build HAVE_VORBISFILE=1 HAVE_SNDFILE=1 \
+%if %mdkversion <= 200700
+%ifnarch %ix86
+	HAVE_ONLY_SERVER=1 # workaround for #24168
+%endif
+%endif
 
 %install
 rm -rf %{buildroot}
