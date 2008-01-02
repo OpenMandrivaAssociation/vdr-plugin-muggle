@@ -12,6 +12,7 @@ Group:		Video
 License:	GPL
 URL:		http://www.htpc-tech.de/htpc/vdr/muggle/
 Source:		http://downloads.htpc-tech.de/muggle/vdr-%plugin-%version.tar.bz2
+BuildRoot:	%{_tmppath}/%{name}-buildroot
 BuildRequires:	vdr-devel >= 1.4.1-6
 Requires:	vdr-abi = %vdr_abi
 BuildRequires:	mysql-static-devel
