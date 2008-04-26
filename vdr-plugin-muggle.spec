@@ -22,6 +22,7 @@ BuildRequires:	libtaglib-devel
 BuildRequires:	libvorbis-devel
 BuildRequires:	libflac++-devel
 BuildRequires:	libsndfile-devel
+BuildRequires:	imlib2-devel
 Requires:	mjpegtools
 Requires:	netpbm
 
