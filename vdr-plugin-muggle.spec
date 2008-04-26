@@ -1,8 +1,8 @@
 
 %define plugin	muggle
 %define name	vdr-plugin-%plugin
-%define version	0.1.11
-%define rel	17
+%define version	0.2.1
+%define rel	1
 
 Summary:	VDR plugin: Media juggle
 Name:		%name
@@ -10,17 +10,17 @@ Version:	%version
 Release:	%mkrel %rel
 Group:		Video
 License:	GPL
-URL:		http://www.htpc-tech.de/htpc/vdr/muggle/
-Source:		http://downloads.htpc-tech.de/muggle/vdr-%plugin-%version.tar.bz2
+URL:		http://sourceforge.net/projects/vdr-muggle/
+Source:		http://downloads.sourceforge.net/vdr-muggle/vdr-%plugin-%version.tgz
+Patch0:		muggle-0.2.1-convert-location.patch
 BuildRoot:	%{_tmppath}/%{name}-buildroot
-BuildRequires:	vdr-devel >= 1.4.1-6
+BuildRequires:	vdr-devel >= 1.6.0
 Requires:	vdr-abi = %vdr_abi
 BuildRequires:	mysql-static-devel
 BuildRequires:	mad-devel
 BuildRequires:	libtaglib-devel
 BuildRequires:	libvorbis-devel
-# API incompatibility
-#BuildRequires:	libflac++-devel
+BuildRequires:	libflac++-devel
 BuildRequires:	libsndfile-devel
 Requires:	mjpegtools
 Requires:	netpbm
@@ -31,12 +31,9 @@ of media becomes more flexible.
 
 %prep
 %setup -q -n %plugin-%version
-
-perl -pi -e 's,/usr/local/bin/image_convert.sh,%{_vdr_plugin_datadir}/%{plugin}/image_convert.sh,' mg_image_provider.c
-perl -pi -e 's,#include <vdr/getopt.h>,,' muggle.c
-
-
-perl -pi -e 's,SQLLIBS =,SQLLIBS = -lssl,' Makefile
+%patch0 -p1
+sed -i 's,@MUGGLEDATADIR@,%{_vdr_plugin_datadir}/%{plugin},' mg_image_provider.c
+%vdr_plugin_prep
 
 %vdr_plugin_params_begin %plugin
 # specify database name (default is GiantDisc)
@@ -76,7 +73,7 @@ param="-w DB_PASSWORD"
 
 %build
 # HAVE_FLAC=1 omitted, API incompatibility
-%vdr_plugin_build HAVE_VORBISFILE=1 HAVE_SNDFILE=1 \
+%vdr_plugin_build HAVE_VORBISFILE=1 HAVE_SNDFILE=1 HAVE_FLAC=1 \
 %if %mdkversion <= 200700
 %ifnarch %ix86
 	HAVE_ONLY_SERVER=1 # workaround for #24168
@@ -88,7 +85,7 @@ rm -rf %{buildroot}
 %vdr_plugin_install
 
 install -d -m755 %{buildroot}%{_vdr_plugin_datadir}/%{plugin}
-install -m755 scripts/image_convert.sh %{buildroot}%{_vdr_plugin_datadir}/%{plugin}
+install -m755 scripts/muggle-image-convert %{buildroot}%{_vdr_plugin_datadir}/%{plugin}
 
 install -d -m755 %{buildroot}%{_bindir}
 install -m755 mugglei %{buildroot}%{_bindir}
@@ -106,9 +103,7 @@ rm -rf %{buildroot}
 
 %files -f %plugin.vdr
 %defattr(-,root,root)
-%doc README HISTORY README.mysql TODO
+%doc README HISTORY README* TODO scripts
 %{_vdr_plugin_datadir}/%{plugin}
 %{_bindir}/mugglei
 %attr(-,vdr,vdr) %dir %{_localstatedir}/muggle
-
-
