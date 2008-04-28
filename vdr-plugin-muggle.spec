@@ -2,7 +2,7 @@
 %define plugin	muggle
 %define name	vdr-plugin-%plugin
 %define version	0.2.1
-%define rel	1
+%define rel	2
 
 Summary:	VDR plugin: Media juggle
 Name:		%name
