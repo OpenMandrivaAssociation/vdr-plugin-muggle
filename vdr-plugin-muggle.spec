@@ -46,7 +46,7 @@ param="-t TOPLEVEL"
 # specify directory for embedded sql data (default is /var/lib/muggle)
 var=DATADIR
 param="-d DATADIR"
-default=%{_localstatedir}/muggle
+default=%{_localstatedir}/lib/muggle
 # specify debug level. The higher the more. Default is 1
 var=VERBOSE
 param="-n VERBOSE"
@@ -91,7 +91,7 @@ install -m755 scripts/muggle-image-convert %{buildroot}%{_vdr_plugin_datadir}/%{
 install -d -m755 %{buildroot}%{_bindir}
 install -m755 mugglei %{buildroot}%{_bindir}
 
-install -d -m755 %{buildroot}%{_localstatedir}/muggle
+install -d -m755 %{buildroot}%{_localstatedir}/lib/muggle
 
 %clean
 rm -rf %{buildroot}
@@ -107,4 +107,4 @@ rm -rf %{buildroot}
 %doc README HISTORY README* TODO scripts
 %{_vdr_plugin_datadir}/%{plugin}
 %{_bindir}/mugglei
-%attr(-,vdr,vdr) %dir %{_localstatedir}/muggle
+%attr(-,vdr,vdr) %dir %{_localstatedir}/lib/muggle
