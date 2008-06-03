@@ -4,6 +4,9 @@
 %define version	0.2.1
 %define rel	2
 
+# backportability
+%define _localstatedir %{_var}
+
 Summary:	VDR plugin: Media juggle
 Name:		%name
 Version:	%version
