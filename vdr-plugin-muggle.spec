@@ -2,7 +2,7 @@
 %define plugin	muggle
 %define name	vdr-plugin-%plugin
 %define version	0.2.1
-%define rel	3
+%define rel	4
 
 # backportability
 %define _localstatedir %{_var}
