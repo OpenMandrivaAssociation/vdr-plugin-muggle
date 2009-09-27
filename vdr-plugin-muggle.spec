@@ -1,8 +1,8 @@
 
 %define plugin	muggle
 %define name	vdr-plugin-%plugin
-%define version	0.2.1
-%define rel	4
+%define version	0.2.3
+%define rel	1
 
 # backportability
 %define _localstatedir %{_var}
@@ -17,8 +17,6 @@ URL:		http://sourceforge.net/projects/vdr-muggle/
 Source:		http://downloads.sourceforge.net/vdr-muggle/vdr-%plugin-%version.tgz
 Patch0:		muggle-0.2.1-convert-location.patch
 Patch1:		muggle-includes.patch
-Patch2:		muggle-types.patch
-Patch3:		muggle-format-string.patch
 Patch4:		muggle-const-char-gcc4.4.patch
 BuildRoot:	%{_tmppath}/%{name}-buildroot
 BuildRequires:	vdr-devel >= 1.6.0
@@ -41,8 +39,6 @@ of media becomes more flexible.
 %setup -q -n %plugin-%version
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
-%patch3 -p1
 %patch4 -p1
 sed -i 's,@MUGGLEDATADIR@,%{_vdr_plugin_datadir}/%{plugin},' mg_image_provider.c
 %vdr_plugin_prep
