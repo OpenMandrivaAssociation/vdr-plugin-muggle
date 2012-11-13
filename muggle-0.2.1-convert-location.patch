@@ -1,0 +1,14 @@
+Index: muggle-0.2.1/mg_image_provider.c
+===================================================================
+--- muggle-0.2.1/mg_image_provider.c
++++ muggle-0.2.1/mg_image_provider.c	2008-04-24 02:22:57.000000000 +0300
+@@ -356,8 +356,7 @@
+ 			usleep(1000*1000);	
+ 		string cachedFile = getCachedMPGFile(cnvItem,images[i]);
+ 		char *cmd;
+-		msprintf( &cmd, "%s/scripts/muggle-image-convert \"%s\" \"%s\" %d %d %d %d &",
+-			the_setup.ConfigDirectory.c_str(),
++		msprintf( &cmd, "@MUGGLEDATADIR@/muggle-image-convert \"%s\" \"%s\" %d %d %d %d &",
+ 		images[i].c_str(), cachedFile.c_str(),
+ 		coverarea.x1,coverarea.y1,coverarea.Width(),coverarea.Height() );
+ 		mgDebug(5,"%d %s",system( (const char*) cmd ),cmd);

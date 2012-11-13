@@ -1,0 +1,12 @@
+Index: muggle-0.2.1/mg_tools.h
+===================================================================
+--- muggle-0.2.1/mg_tools.h
++++ muggle-0.2.1/mg_tools.h	2009-07-27 19:48:05.667975554 +0300
+@@ -17,6 +17,7 @@
+ #include <iostream>
+ #include <sstream>
+ #include <string>
++#include <cstdarg>
+ 
+ using namespace std;
+ 

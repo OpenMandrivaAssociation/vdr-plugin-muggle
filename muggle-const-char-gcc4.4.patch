@@ -1,0 +1,82 @@
+Index: muggle-0.2.1/mg_db.c
+===================================================================
+--- muggle-0.2.1/mg_db.c
++++ muggle-0.2.1/mg_db.c	2009-07-27 20:13:11.268844020 +0300
+@@ -1127,7 +1127,8 @@
+ 	string genre1 = f.tag()->genre().toCString(the_setup.utf8);
+ 	if (genre1.empty()) {
+ 		genre1 = m_TCON.toCString(the_setup.utf8);
+-		const char *tcon=genre1.c_str();
++		// hack
++		char *tcon=const_cast<char *>(genre1.c_str());
+ 		char *rparen=strchr(tcon,')');
+ 		if (tcon[0]=='(' && rparen) {
+ 			*rparen=0;
+@@ -1144,7 +1145,7 @@
+ bool
+ 								 // returns true if a new file is imported
+ mgDb::SyncFile(const char *filename) {
+-	char *ext = extension(filename);
++	const char *ext = extension(filename);
+ 	if (strcasecmp(ext,"flac")
+ 		&& strcasecmp(ext,"wav")
+ 		&& strcasecmp(ext,"ogg")
+Index: muggle-0.2.1/mg_image_provider.c
+===================================================================
+--- muggle-0.2.1/mg_image_provider.c
++++ muggle-0.2.1/mg_image_provider.c	2009-07-27 19:55:34.208094563 +0300
+@@ -39,7 +39,7 @@
+ 		return (FALSE);
+ 	}
+ 	else {
+-		char *ext = rindex( entry->d_name, '.' );
++		const char *ext = rindex( entry->d_name, '.' );
+ 
+ 		if( ext ) {
+ 			if( !strcmp( ext, ".jpg" ) || !strcmp( ext, ".png" ) || !strcmp( ext, ".JPG" ) || !strcmp( ext, ".PNG" ) ) {
+Index: muggle-0.2.1/mg_tools.c
+===================================================================
+--- muggle-0.2.1/mg_tools.c
++++ muggle-0.2.1/mg_tools.c	2009-07-27 20:10:22.316844417 +0300
+@@ -168,9 +168,9 @@
+ 	return s.str ();
+ }
+ 
+-char *
++const char *
+ extension(const char *filename) {
+-	char *dot = strrchr(filename,'.');
++	const char *dot = strrchr(filename,'.');
+ 	if (!dot)
+ 		dot = strrchr(filename,0)-1;
+ 	return dot+1;
+@@ -205,14 +205,13 @@
+ }
+ 
+ bool mkdir_p(const char *s) {
+-	char *slash=strrchr(s,'/');
+-	if (!slash) return false;
++	if (!strrchr(s,'/')) return false;
+ 	char *sc = strdup(s);
+ 	*strrchr(sc,'/')=0;	// cut off the filename
+ 	char *p = sc;
+ 	int mode;
+ 	while (*p) {
+-		slash=strchr(p+1,'/');
++		char *slash=strchr(p+1,'/');
+ 		if (slash) *slash=0;
+ 		mode=R_OK|X_OK|W_OK;
+ 		if (slash) if (strchr(slash+1,'/'))
+Index: muggle-0.2.1/mg_tools.h
+===================================================================
+--- muggle-0.2.1/mg_tools.h
++++ muggle-0.2.1/mg_tools.h	2009-07-27 20:10:11.825844017 +0300
+@@ -83,7 +83,7 @@
+ string ltos (long l);
+ 
+ //! \brief return extension of a file
+-char *extension (const char *filename);
++const char *extension (const char *filename);
+ 
+ bool notempty(const char *s);
+ 
