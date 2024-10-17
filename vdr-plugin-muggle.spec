@@ -13,7 +13,7 @@ Version:	%version
 Release:	%mkrel %rel
 Group:		Video
 License:	GPL
-URL:		http://sourceforge.net/projects/vdr-muggle/
+URL:		https://sourceforge.net/projects/vdr-muggle/
 Source:		http://downloads.sourceforge.net/vdr-muggle/vdr-%plugin-%version.tgz
 Patch0:		muggle-0.2.1-convert-location.patch
 Patch1:		muggle-includes.patch
